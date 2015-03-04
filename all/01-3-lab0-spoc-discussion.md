@@ -19,7 +19,8 @@
 
 >  对于 C 的一些语法细节不熟悉；  
 >  对 X86 架构不了解；  
->  对操作系统的一些常规实现不了解。  
+>  对操作系统的一些常规实现不了解；  
+>  不会写 makefile 。  
 
 如何把一个在gdb中或执行过程中出现的物理/线性地址与你写的代码源码位置对应起来？
 
@@ -98,9 +99,36 @@ SETGATE(intr, 0,1,2,3);
 >  结果是 0x00010002 。
 
 请分析 [list.h](https://github.com/chyyuu/ucore_lab/blob/master/labcodes/lab2/libs/list.h)内容中大致的含义，并能include这个文件，利用其结构和功能编写一个数据结构链表操作的小C程序
-- [x]  
 
->
+```
+#include <stdio.h>
+#include <stdlib.h>
+#include "list.h"
+
+struct entry {
+
+    list_entry_t node;
+    int num;
+};
+
+int main() {
+    struct entry head;
+    list_entry_t* p = &head.node;
+    list_init(p);
+    head.num = 0;
+    int i;
+    for (i = 1; i != 10; i ++) {
+        struct entry * e = (struct entry *)malloc(sizeof(struct entry));
+        e->num = i;
+        list_add(p, &(e->node));
+        p = list_next(p);
+    }
+    //遍历输出除头尾以外的数字
+    while ((p = list_prev(p)) != &head.node)
+        printf("%d\n", ((struct entry *)p)->num);
+    return 0;
+}
+```
 
 ---
 
