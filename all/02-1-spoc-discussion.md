@@ -23,8 +23,35 @@
 
 ## 3.2 系统启动流程
  1. 了解NTLDR的启动流程。
+
+ ```
+ - Accesses the file system on the boot drive (either FAT or NTFS).  
+ - If Windows was put in the hibernation state, the contents of hiberfil.sys are loaded into memory and the system resumes where it left off.  
+ - Otherwise, reads boot.ini and prompts the user with the boot menu accordingly.  
+ - If a non NT-based OS is selected, NTLDR loads the associated file listed in boot.ini and gives it control.  
+ - If an NT-based OS is selected, NTLDR runs ntdetect.com, which gathers information about the computer's hardware.  
+ - Starts Ntoskrnl.exe, passing to it the information returned by ntdetect.com.
+ ```
+
  2. 了解GRUB的启动流程。
+
+ ```
+ - The first-stage loader (stage1) is loaded and executed either by the BIOS from the MBR or by another boot loader from the partition boot sector.  
+ - If necessary, an intermediate stage loader (stage1.5) is loaded and executed by the first-stage loader.
+ - The second-stage loader (stage2) is then loaded and executed. This displays the GRUB startup menu,
+ which allows the user to choose an operating system or to examine and edit startup parameters.  
+ - After an operating system is chosen, GRUB loads its kernel into memory and passes control to the kernel.
+ Alternatively, GRUB can pass control of the boot process to another boot loader, using chain loading.
+ ```
+
  3. 比较NTLDR和GRUB的功能有差异。
+
+ ```
+ 可参考下面的资料：
+ ```
+
+ [Comparison of bootloaders](http://en.wikipedia.org/wiki/Comparison_of_boot_loaders)
+
  4. 了解u-boot的功能。
 
 ## 3.3 中断、异常和系统调用比较
