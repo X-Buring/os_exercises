@@ -4,17 +4,60 @@
 
 ## 3.1 BIOS
  1. 比较UEFI和BIOS的区别。
- 1. 描述PXE的大致启动流程。
+
+ |  项目  |  legacy BIOS   |   UEFI   |
+ |-------|---------|-----------------|
+ | 工作原理 | 读取磁盘的0扇区，选择启动设备；工作在 16 位模式 | 存储在硬盘中的 ESP 分区中的一个 .efi 文件 |
+ | 分区表   |  MBR 分区表，32 位  |  GUID 分区表，64 位  |
+ | 启动速度 |   慢   |   快，甚至可以提前执行一些 UEFI app   |
+ | 安全性   |  易受 Bootkit 攻击  |  可以有效避免 malware  |  
+
+ 2. 描述PXE的大致启动流程。
+    - 客户端个人电脑开机后， 在 TCP/IP Bootrom 获得控制权之前先做自我测试；
+    - Bootprom 送出 BOOTP/DHCP 要求以取得 IP；
+    - 如果服务器收到个人电脑所送出的要求，就会送回 BOOTP/DHCP 回应，
+    内容包括客户端的 IP 地址，预设网关，及开机映像文件。否则，服务器会忽略这个要求；  
+    - Bootprom 由 TFTP 通讯协议从服务器下载开机映像文件;  
+    - 个人电脑通过这个开机映像文件开机，这个开机文件可以只是单纯的开机程式也可以是操作系统；  
+    - 远程客户端根据下载的文件启动机器。  
 
 ## 3.2 系统启动流程
  1. 了解NTLDR的启动流程。
- 1. 了解GRUB的启动流程。
- 1. 比较NTLDR和GRUB的功能有差异。
- 1. 了解u-boot的功能。
+ 2. 了解GRUB的启动流程。
+ 3. 比较NTLDR和GRUB的功能有差异。
+ 4. 了解u-boot的功能。
 
 ## 3.3 中断、异常和系统调用比较
  1. 举例说明Linux中有哪些中断，哪些异常？
- 1. Linux的系统调用有哪些？大致的功能分类有哪些？  (w2l1)
+ ```
+ 例如键盘事件就是中断，程序除 0 就是异常。
+ 以下是 Linux 的 table interrupt vector：
+ ```
+
+ | Identifier | Description  |
+ |------------|--------------|
+ | 0 | Divide error |
+ | 1 | Debug exception |
+ | 2 | Non-maskable interrupt |
+ | 3 | Breakpoint |
+ | 4 | Overflow |
+ | 5 | Bounds check |
+ | 6 | Invalid opcode |
+ | 7 | Coprocessor not available |
+ | 8 | Double fault |
+ | 9 | (reserved) |
+ | 10 | Invalid TSS |
+ | 11 | Segment not present |
+ | 12 | Stack exception |
+ | 13 | General protection fault |
+ | 14 | Page fault |
+ | 15 | (reserved) |
+ | 16 | Coprocessor error |
+ | 17 | alignment error (80486) |
+ | 18-31 | (reserved) |
+ | 32-255 | External (HW) interrupts |
+
+ 2. Linux的系统调用有哪些？大致的功能分类有哪些？  (w2l1)
 
  ```
  上百个。包含下面几个分类：
@@ -29,7 +72,7 @@
     - 进程间通信，包括信号、消息、管道、信号量、共享内存等
  ```
 
- 1. 以ucore lab8的answer为例，uCore的系统调用有哪些？大致的功能分类有哪些？(w2l1)
+ 3. 以ucore lab8的answer为例，uCore的系统调用有哪些？大致的功能分类有哪些？(w2l1)
 
  ```
  见下表：  
