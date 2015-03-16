@@ -38,7 +38,43 @@ NOTICE
 
 [点我查看](https://github.com/cty12/os_exercises/blob/master/src/memory_management.py)
 
-![result](../img/snap.jpg)
+>  结果：
+
+```
+➜  src git:(master) ✗ python memory_management.py
+alloc:  128
+alloc:  128
+alloc:  128
+used:  [[0, 128], [128, 256], [256, 384]]
+free:  [[384, 512]]
+
+free:  128
+used:  [[0, 128], [256, 384]]
+free:  [[384, 512], [128, 256]]
+
+free:  256
+used:  [[0, 128]]
+free:  [[128, 512]]
+
+alloc:  64
+alloc:  64
+used:  [[0, 128], [128, 192], [192, 256]]
+free:  [[256, 512]]
+
+free:  127
+the block is not used. fail to free.
+free:  128
+used:  [[0, 128], [192, 256]]
+free:  [[256, 512], [128, 192]]
+
+alloc:  128
+used:  [[0, 128], [192, 256], [256, 384]]
+free:  [[128, 192], [384, 512]]
+
+alloc:  32
+used:  [[0, 128], [192, 256], [256, 384], [128, 160]]
+free:  [[384, 512], [160, 192]]
+```
 
 ---
 
