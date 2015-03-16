@@ -6,6 +6,9 @@ spare = [[0, mem_size]]
 used = list()
 
 def malloc(length):
+    # debug
+    print 'alloc: ', length
+
     if len(spare) == 0:
         print 'memory used up. abort. '
         return
@@ -29,6 +32,9 @@ def malloc(length):
         spare.append([block[0] + length, block[1]])
 
 def mfree(addr):
+    # debug
+    print 'free: ', addr
+
     flag = -1
     for i in range(len(used)):
         if used[i][0] == addr:
@@ -40,42 +46,42 @@ def mfree(addr):
         return
 
     block = used.pop(flag)
+    front = -1
+    back = -1
     for idx, tup in enumerate(spare):
         if (tup[1] == block[0]):
-            spare.pop(idx)
             block[0] = tup[0]
-        if (tup[0] == block[1]):
-            spare.pop(idx)
-            block[1] = tup[1]
+            front = idx
 
+        if (tup[0] == block[1]):
+            block[1] = tup[1]
+            back = idx
+    if front >= 0:
+        spare.pop(front)
+    if back >= 0:
+        spare.pop(back)
     spare.append(block)
 
 def mem_stat():
     print 'used: ', used
-    print 'free: ', spare
+    print 'free: ', spare, '\n'
 
 # TEST CASES
 malloc(128)
-# used: [0, 128]
-mem_stat()
-malloc(64)
-# used: [0, 128], [128, 192]
-mem_stat()
-malloc(256)
-# used: [0, 128], [128, 192], [192, 448]
+malloc(128)
+malloc(128)
 mem_stat()
 mfree(128)
-# used: [0, 128], [192, 448]
 mem_stat()
-malloc(512)
-# err
+mfree(256)
 mem_stat()
-mfree(192)
+malloc(64)
+malloc(64)
 mem_stat()
-malloc(32)
-mem_stat()
-malloc(32)
-mem_stat()
-malloc(320)
+mfree(127)
+mfree(128)
 mem_stat()
 malloc(128)
+mem_stat()
+malloc(32)
+mem_stat()
