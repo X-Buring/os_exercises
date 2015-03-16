@@ -139,7 +139,7 @@ int main(int argc, char * * argv) {
 > 从上述列表中可以查看到某个特定的 syscall 的次数。  
 > strace 的原理是每次拦截系统调用，然后相应计数加一。  
 
-如何裁减lab1, 实现一个可显示字符串"THU LAB1"且依然能够正确加载ucore OS的bootloader？如果不能完成实现，请说明理由。
+如何修改lab1, 实现一个可显示字符串"THU LAB1"且依然能够正确加载ucore OS的bootloader？如果不能完成实现，请说明理由。
 - [x]  
 
 >
