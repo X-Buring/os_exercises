@@ -54,7 +54,7 @@ def mem_stat():
     print 'used: ', used
     print 'free: ', spare
 
-
+# TEST CASES
 malloc(128)
 # used: [0, 128]
 mem_stat()

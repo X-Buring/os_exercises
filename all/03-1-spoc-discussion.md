@@ -38,6 +38,8 @@ NOTICE
 
 [点我查看](https://github.com/cty12/os_exercises/blob/master/src/memory_management.py)
 
+![result](../img/snap.jpg =300x200)
+
 ---
 
 ## 扩展思考题
