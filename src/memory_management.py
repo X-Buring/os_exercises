@@ -35,9 +35,9 @@ def mfree(addr):
             flag = i
             break
 
-    # if flag == -1:
-    #     print 'the block is not used. fail to free. '
-    #     return
+    if flag == -1:
+        print 'the block is not used. fail to free. '
+        return
 
     block = used.pop(flag)
     for idx, tup in enumerate(spare):
