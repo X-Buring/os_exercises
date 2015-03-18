@@ -20,13 +20,13 @@ NOTICE
   - 正确描述了64bit CPU下的多级页表的级数和多级页表的结构或反置页表的结构（2分）
   - 除上述两点外，进一步描述了在多级页表或反置页表下的虚拟地址-->物理地址的映射过程（3分）
  ```
-- [x]  
+
 
 >  ['Current implementations of the AMD64 architecture extend this to 48-bit physical addresses and therefore can address up to 256 TB of RAM. '](http://en.wikipedia.org/wiki/X86-64#cite_note-amd10h-14)
 >  得知现代的 AMD64 架构的物理内存限制为 2^48 B 。
 >  通常为 4 级页表，页表结构如下图所示：
 
-!(page_table_x86_64)[https://www.cs.uaf.edu/2012/fall/cs301/lecture/11_05_page_translation.png]
+![page_table_x86_64](https://www.cs.uaf.edu/2012/fall/cs301/lecture/11_05_page_translation.png)
 
 >  级与级之间的映射过程就是将上一级的表项移位加上偏置量，偏置量从虚拟地址的某些位得到。
 >  下面的题目用 py 实现了一个简单的二级页表。
@@ -36,8 +36,6 @@ NOTICE
 ---
 
 （1）(spoc) 某系统使用请求分页存储管理，若页在内存中，满足一个内存请求需要150ns。若缺页率是10%，为使有效访问时间达到0.5ms,求不在内存的页面的平均访问时间。请给出计算步骤。
-
-- [x]  
 
 > 500=0.9\*150+0.1\*x
 
