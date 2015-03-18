@@ -27,7 +27,7 @@ NOTICE
 ## 小组思考题
 ---
 
-（1）(spoc) 某系统使用请求分页存储管理，若页在内存中，满足一个内存请求需要150ns。若缺页率是10%，为使有效访问时间达到0.5ms,求不在内存的页面的平均访问时间。请给出计算步骤。 
+（1）(spoc) 某系统使用请求分页存储管理，若页在内存中，满足一个内存请求需要150ns。若缺页率是10%，为使有效访问时间达到0.5ms,求不在内存的页面的平均访问时间。请给出计算步骤。
 
 - [x]  
 
@@ -70,7 +70,7 @@ Virtual Address 7570:
   --> pde index:0x1d  pde contents:(valid 1, pfn 0x33)
     --> pte index:0xb  pte contents:(valid 0, pfn 0x7f)
       --> Fault (page table entry not valid)
-      
+
 Virtual Address 21e1:
   --> pde index:0x8  pde contents:(valid 0, pfn 0x7f)
       --> Fault (page directory entry not valid)
@@ -81,7 +81,7 @@ Virtual Address 7268:
       --> Translates to Physical Address 0xca8 --> Value: 16
 ```
 
-
+>  代码在 [这里](/src/addr_convert.py)
 
 （3）请基于你对原理课二级页表的理解，并参考Lab2建页表的过程，设计一个应用程序（可基于python, ruby, C, C++，LISP等）可模拟实现(2)题中描述的抽象OS，可正确完成二级页表转换。
 
@@ -89,10 +89,10 @@ Virtual Address 7268:
 （4）假设你有一台支持[反置页表](http://en.wikipedia.org/wiki/Page_table#Inverted_page_table)的机器，请问你如何设计操作系统支持这种类型计算机？请给出设计方案。
 
  (5)[X86的页面结构](http://os.cs.tsinghua.edu.cn/oscourse/OS2015/lecture06#head-1f58ea81c046bd27b196ea2c366d0a2063b304ab)
---- 
+---
 
 ## 扩展思考题
 
 阅读64bit IBM Powerpc CPU架构是如何实现[反置页表](http://en.wikipedia.org/wiki/Page_table#Inverted_page_table)，给出分析报告。
 
---- 
+---
