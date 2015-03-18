@@ -40,7 +40,7 @@ def va2pa(VA):
         return
 
     pa = (pfn << 5) + offset
-    print '\t\t\t--> Translates to Physical Address ', hex(pa), ' --> Value: ', memory[pa]
+    print '\t\t\t--> Translates to Physical Address ', hex(pa), ' --> Value: ', int(memory[pa], 16)
 
 va_list = [0x6c74, 0x6b22, 0x03df, 0x69dc,
             0x317a, 0x4546, 0x2c03, 0x7fd7, 0x390e, 0x748b]
