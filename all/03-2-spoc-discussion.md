@@ -22,7 +22,15 @@ NOTICE
  ```
 - [x]  
 
->  
+>  ['Current implementations of the AMD64 architecture extend this to 48-bit physical addresses and therefore can address up to 256 TB of RAM. '](http://en.wikipedia.org/wiki/X86-64#cite_note-amd10h-14)
+>  得知现代的 AMD64 架构的物理内存限制为 2^48 B 。
+>  通常为 4 级页表，页表结构如下图所示：
+
+!(page_table_x86_64)[https://www.cs.uaf.edu/2012/fall/cs301/lecture/11_05_page_translation.png]
+
+>  级与级之间的映射过程就是将上一级的表项移位加上偏置量，偏置量从虚拟地址的某些位得到。
+>  下面的题目用 py 实现了一个简单的二级页表。
+
 
 ## 小组思考题
 ---
@@ -81,7 +89,50 @@ Virtual Address 7268:
       --> Translates to Physical Address 0xca8 --> Value: 16
 ```
 
->  代码在 [这里](/src/addr_convert.py)
+>  代码在 [这里](/src/addr_convert.py)  
+>  运行结果如下：
+
+```
+Virtual Address  0x6c74
+	pde index:  0x23b  pde content: (valid  1 , pfn  0x20 )
+		pte index:  0x403  pte content: (valid  1 , pfn  0x61 )
+			--> Translates to Physical Address  0xc34  --> Value:  6
+Virtual Address  0x6b22
+	pde index:  0x23a  pde content: (valid  1 , pfn  0x52 )
+		pte index:  0xa59  pte content: (valid  1 , pfn  0x47 )
+			--> Translates to Physical Address  0x8e2  --> Value:  26
+Virtual Address  0x3df
+	pde index:  0x220  pde content: (valid  1 , pfn  0x5a )
+		pte index:  0xb5e  pte content: (valid  1 , pfn  0x5 )
+			--> Translates to Physical Address  0xbf  --> Value:  15
+Virtual Address  0x69dc
+	pde index:  0x23a  pde content: (valid  1 , pfn  0x52 )
+		pte index:  0xa4e  pte content: (valid  0 , pfn  0x7f )
+			--> Fault (page table entry not valid)
+Virtual Address  0x317a
+	pde index:  0x22c  pde content: (valid  1 , pfn  0x18 )
+		pte index:  0x30b  pte content: (valid  1 , pfn  0x35 )
+			--> Translates to Physical Address  0x6ba  --> Value:  30
+Virtual Address  0x4546
+	pde index:  0x231  pde content: (valid  1 , pfn  0x21 )
+		pte index:  0x42a  pte content: (valid  0 , pfn  0x7f )
+			--> Fault (page table entry not valid)
+Virtual Address  0x2c03
+	pde index:  0x22b  pde content: (valid  1 , pfn  0x44 )
+		pte index:  0x880  pte content: (valid  1 , pfn  0x57 )
+			--> Translates to Physical Address  0xae3  --> Value:  22
+Virtual Address  0x7fd7
+	pde index:  0x23f  pde content: (valid  1 , pfn  0x12 )
+		pte index:  0x25e  pte content: (valid  0 , pfn  0x7f )
+			--> Fault (page table entry not valid)
+Virtual Address  0x390e
+	pde index:  0x22e  pde content: (valid  0 , pfn  0x7f )
+		--> Fault (page directory entry not valid)
+Virtual Address  0x748b
+	pde index:  0x23d  pde content: (valid  1 , pfn  0x0 )
+		pte index:  0x4  pte content: (valid  0 , pfn  0x7f )
+			--> Fault (page table entry not valid)
+```
 
 （3）请基于你对原理课二级页表的理解，并参考Lab2建页表的过程，设计一个应用程序（可基于python, ruby, C, C++，LISP等）可模拟实现(2)题中描述的抽象OS，可正确完成二级页表转换。
 
