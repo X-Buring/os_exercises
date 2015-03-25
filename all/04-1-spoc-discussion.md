@@ -154,6 +154,8 @@ Virtual Address 1e6f(0 001_11 10_011 0_1111):
       --> To Disk Sector Address 0x2cf(0001011001111) --> Value: 1c
 ```
 
+> 代码请见 [这里](/src/04-1-coding/virtual_mem.py)
+
 ## 扩展思考题
 ---
 (1)请分析原理课的缺页异常的处理流程与lab3中的缺页异常的处理流程（分析粒度到函数级别）的异同之处。
