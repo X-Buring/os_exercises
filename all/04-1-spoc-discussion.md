@@ -35,6 +35,43 @@ time ./goodlocality
 ```
 可以看到其执行时间。
 
+> 修改后代码如下(数组访问时交换i、j次序)：
+
+```c
+#include <stdio.h>
+
+#define NUM 1024
+#define COUNT 10
+int A[NUM][NUM];
+
+void main (void) {
+	int i,j,k;
+	for (k = 0; k<COUNT; k++)
+		for (i = 0; i < NUM; i++)
+			for (j = 0; j  < NUM; j++)
+				A[j][i] = i+j;
+	printf("%d count computing over!\n", i*j*k);
+}
+```
+> 修改前运行结果：
+
+```
+10485760 count computing over!
+
+real	0m0.051s
+user	0m0.043s
+sys	0m0.008s
+```
+> 修改后运行结果如下：
+
+```
+10485760 count computing over!
+
+real	0m0.297s
+user	0m0.292s
+sys	0m0.004s
+```
+
 ## 小组思考题目
 ----
 
@@ -99,7 +136,7 @@ page 6c: e1(1110 0001) b5(1011 0101) a1(1010 0001) c1(1100 0001)
 Virtual Address 0330(0 00000 11001 1_0000):
   --> pde index:0x0(00000)  pde contents:(0xe1, 11100001, valid 1, pfn 0x61(page 0x61))
   page 61: 7c 7f 7f 4e 4a 7f 3b 5a 2a be 7f 6d 7f 66 7f a7
-           69 96 7f c8 3a 7f a5 83 07 e3 7f 37 62 30 7f 3f 
+           69 96 7f c8 3a 7f a5 83 07 e3 7f 37 62 30 7f 3f
     --> pte index:0x19(11001)  pte contents:(0xe3, 1 110_0011, valid 1, pfn 0x63)
   page 63: 16 00 0d 15 00 1c 1d 16 02 02 0b 00 0a 00 1e 19
            02 1b 06 06 14 1d 03 00 0b 00 12 1a 05 03 0a 1d
@@ -110,9 +147,9 @@ Virtual Address 1e6f(0 001_11 10_011 0_1111):
   page 6c: e1 b5 a1 c1 b3 e4 a6 bd 7f 7f 7f 7f 7f 7f 7f 7f
            7f 7f 7f 7f 7f 7f 7f 7f 7f 7f 7f 7f 7f 7f 7f 7f
   page 3d: f6 7f 5d 4d 7f 04 29 7f 1e 7f ef 51 0c 1c 7f 7f
-           7f 76 d1 16 7f 17 ab 55 9a 65 ba 7f 7f 0b 7f 7f 
+           7f 76 d1 16 7f 17 ab 55 9a 65 ba 7f 7f 0b 7f 7f
     --> pte index:0x13  pte contents:(0x16, valid 0, pfn 0x16)
-  disk 16: 00 0a 15 1a 03 00 09 13 1c 0a 18 03 13 07 17 1c 
+  disk 16: 00 0a 15 1a 03 00 09 13 1c 0a 18 03 13 07 17 1c
            0d 15 0a 1a 0c 12 1e 11 0e 02 1d 10 15 14 07 13
       --> To Disk Sector Address 0x2cf(0001011001111) --> Value: 1c
 ```
