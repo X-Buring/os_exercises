@@ -8,13 +8,36 @@
 
 (1) ucore的线程控制块数据结构是什么？
 
+struct proc_struct {
+    int pid;
+    char name[15+1];
+    enum proc_state state;
+    int runs;
+    volatile bool need_resched;
+    uint32_t flags;
+    uintptr_t kstack;
+    uintptr_t cr3;
+    struct mm_struct * mm;
+    struct context context;
+    struct trapframe * tf;
+    struct proc_struct * parent;
+    list_entry_t list_link;
+    list entry_t hash_link;
+};
+
 ### 关键数据结构
 
 (2) 如何知道ucore的两个线程同在一个进程？
 
+parent cr3
+
 (3) context和trapframe分别在什么时候用到？
 
+进程切换
+
 (4) 用户态或内核态下的中断处理有什么区别？在trapframe中有什么体现？
+
+有，lab 5 会碰到。
 
 ### 执行流程
 
@@ -50,7 +73,7 @@ tf和context中的esp
 
 请完成如下练习，完成代码填写，并形成spoc练习报告
 
-### 1. 分析并描述创建分配进程的过程
+### 练习1：分析并描述创建分配进程的过程
 
 > 注意 state、pid、cr3，context，trapframe的含义
 
@@ -58,6 +81,28 @@ tf和context中的esp
 
 > 注意 理解对kstack, trapframe, context等的初始化
 
+```c
+//    1. call alloc_proc to allocate a proc_struct
+proc = alloc_proc();
+proc->pid = get_pid();
+//    2. call setup_kstack to allocate a kernel stack for child process
+setup_kstack(proc);
+//    3. call copy_thread to setup tf & context in proc_struct
+copy_thread(proc, stack, tf);
+//    4. insert proc_struct into  proc_list
+list_add_before(&proc_list, &proc->list_link);
+//    5. call wakup_proc to make the new child process RUNNABLE
+wakeup_proc(proc);
+//    7. set ret vaule using child proc's pid
+nr_process++;
+ret = proc->pid;
+//  8. set parent
+proc->parent=current;
+```
+
+kstack 用的是 setup_kstack ，其它两者用的是 copy_thread 。
+
+初始化
 
 当前进程中唯一，操作系统的整个生命周期不唯一，在get_pid中会循环使用pid，耗尽会等待
 
@@ -67,5 +112,3 @@ tf和context中的esp
 ### 练习4 （非必须，有空就做）：增加可以睡眠的内核线程，睡眠的条件和唤醒的条件可自行设计，并给出测试用例，并在spoc练习报告中给出设计实现说明
 
 ### 扩展练习1: 进一步裁剪本练习中的代码，比如去掉页表的管理，只保留段机制，中断，内核线程切换，print功能。看看代码规模会小到什么程度。
-
-
