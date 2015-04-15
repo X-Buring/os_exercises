@@ -77,6 +77,12 @@ tf和context中的esp
 
 > 注意 state、pid、cr3，context，trapframe的含义
 
+state 的含义是 进程状态
+pid 含义是 进程id
+cr3 含义是 页目录基址
+context 含义是 进程上下文
+trapframe 的含义是中端时 保存的寄存器的值
+
 ### 练习2：分析并描述新创建的内核线程是如何分配资源的
 
 > 注意 理解对kstack, trapframe, context等的初始化
@@ -108,6 +114,8 @@ kstack 用的是 setup_kstack ，其它两者用的是 copy_thread 。
 
 ### 练习3：阅读代码，在现有基础上再增加一个内核线程，并通过增加cprintf函数到ucore代码中
 能够把进程的生命周期和调度动态执行过程完整地展现出来
+
+[点击我](https://github.com/Socyrus/ucore_lab/tree/master/related_info)
 
 ### 练习4 （非必须，有空就做）：增加可以睡眠的内核线程，睡眠的条件和唤醒的条件可自行设计，并给出测试用例，并在spoc练习报告中给出设计实现说明
 
