@@ -113,7 +113,7 @@ kstack 用的是 setup_kstack ，其它两者用的是 copy_thread 。
 当前进程中唯一，操作系统的整个生命周期不唯一，在get_pid中会循环使用pid，耗尽会等待
 
 ### 练习3：阅读代码，在现有基础上再增加一个内核线程，并通过增加cprintf函数到ucore代码中
-能够把进程的生命周期和调度动态执行过程完整地展现出来
+能够把内核线程的生命周期和调度动态执行过程完整地展现出来
 
 [点击我](https://github.com/Socyrus/ucore_lab/tree/master/related_info)
 
