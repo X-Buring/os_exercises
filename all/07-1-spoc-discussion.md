@@ -344,3 +344,7 @@ int FetchAndAdd(int *ptr) {
   return old;
 }
 ```
+
+flag.s 不对，因为 thread 0 在加锁的过程可能被中断打断，导致 thread 1 认为没有加锁。
+
+
