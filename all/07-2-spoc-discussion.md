@@ -54,4 +54,7 @@ s.count--;              //有可用资源，占用该资源；
 
 在 piazza 上回复了，具体请参考 src 目录下的 smoker\_semaphore.py 和 smoker\_condition.py 。
 
+[](https://github.com/cty12/os_exercises/blob/master/src/07-2-spoc-coding/smoker_semaphore.py)  
+[](https://github.com/cty12/os_exercises/blob/master/src/07-2-spoc-coding/smoker_condition.py)
+
 2. (spoc)设计某个方法，能够动态检查出对于两个或多个进程的同步互斥问题执行中，没有互斥问题，能够同步等，以说明实现的正确性。
