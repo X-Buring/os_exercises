@@ -25,7 +25,7 @@
 
  1. SFS在硬盘上的四大部分主要是什么，有何作用？
  
- > superblock, root-dir inode, freeman, data block
+ > superblock, root-dir inode, freemap, data block
 
  2. 硬盘上的SFS是如何加载到ucore中并初始化的？
  3. 硬盘上的inode和内存中的inode的关系和区别是什么?
@@ -47,6 +47,12 @@
 
 1. (spoc) 理解文件访问的执行过程，即在ucore运行过程中通过`cprintf`函数来完整地展现出来读一个文件在ucore中的整个执行过程，(越全面细致越好)
 完成代码填写，并形成spoc练习报告，需写练习报告和简单编码，完成后放到git server 对应的git repo中
+
+调用关系如下：
+
+```
+read() -> sys_read() -> sysfile_read() -> file_read() -> vop_read()  -> sfs_read() -> sfs_io() -> sfs_io_nolock() -> sfs_rbuf() -> sfs_rwblock_nolock() -> dop_io() -> disk0_io()
+```
 
 2. （spoc） 在下面的实验代码的基础上，实现基于文件系统的pipe IPC机制
 

@@ -59,6 +59,42 @@
 ## 小组思考题
  1. (spoc)完成Simple File System的功能，支持应用程序的一般文件操作。具体帮助和要求信息请看[sfs-homework](https://github.com/chyyuu/ucore_lab/blob/master/related_info/lab8/sfs-homework.md)
 
+我实现的部分是 deleteFile() ：
+
+```python
+def deleteFile(self, tfile):
+        if printOps:
+            print 'unlink("%s");' % tfile
+
+        inum = self.nameToInum[tfile]
+    pinum = self.nameToInum[self.getParent(tfile)]
+
+    # YOUR CODE, YOUR ID
+        # IF inode.refcnt ==1, THEN free data blocks first, then free inode, ELSE dec inode.refcnt
+        # remove from parent directory: delete from parent inum, delete from parent addr
+    # DONE
+ 
+    # find inode
+    inode = self.inodes[inum]
+    # IF inode.refcnt ==1
+        if inode.getRefCnt() == 1:
+            # THEN free data blocks first
+            self.dataFree(inode.getAddr())
+            # THEN free inode
+            self.inodeFree(inum)
+    # ELSE
+        else:
+            inode.decRefCnt()
+ 
+        # remove from parent directory
+    pinode = self.inodes[pinum]
+        pinode.decRefCnt()
+        self.data[pinode.getAddr()].delDirEntry(tfile)
+
+        # finally, remove from files list
+        self.files.remove(tfile)
+        return 0
+```
 
  1. (spoc)FAT、UFS、YAFFS、NTFS这几种文件系统中选一种，分析它的文件卷结构、目录结构、文件分配方式，以及它的变种。
   wikipedia上的文件系统列表参考
