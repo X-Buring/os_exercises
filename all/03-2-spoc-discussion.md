@@ -20,16 +20,22 @@ NOTICE
   - 正确描述了64bit CPU下的多级页表的级数和多级页表的结构或反置页表的结构（2分）
   - 除上述两点外，进一步描述了在多级页表或反置页表下的虚拟地址-->物理地址的映射过程（3分）
  ```
-- [x]  
 
->  
+
+>  ['Current implementations of the AMD64 architecture extend this to 48-bit physical addresses and therefore can address up to 256 TB of RAM. '](http://en.wikipedia.org/wiki/X86-64#cite_note-amd10h-14)
+>  得知现代的 AMD64 架构的物理内存限制为 2^48 B 。
+>  通常为 4 级页表，页表结构如下图所示：
+
+![page_table_x86_64](https://www.cs.uaf.edu/2012/fall/cs301/lecture/11_05_page_translation.png)
+
+>  级与级之间的映射过程就是将上一级的表项移位加上偏置量，偏置量从虚拟地址的某些位得到。
+>  下面的题目用 py 实现了一个简单的二级页表。
+
 
 ## 小组思考题
 ---
 
-（1）(spoc) 某系统使用请求分页存储管理，若页在内存中，满足一个内存请求需要150ns (10^-9s)。若缺页率是10%，为使有效访问时间达到0.5us(10^-6s),求不在内存的页面的平均访问时间。请给出计算步骤。 
-
-- [x]  
+（1）(spoc) 某系统使用请求分页存储管理，若页在内存中，满足一个内存请求需要150ns。若缺页率是10%，为使有效访问时间达到0.5ms,求不在内存的页面的平均访问时间。请给出计算步骤。
 
 > 500=0.9\*150+0.1\*x
 
@@ -70,7 +76,7 @@ Virtual Address 7570:
   --> pde index:0x1d  pde contents:(valid 1, pfn 0x33)
     --> pte index:0xb  pte contents:(valid 0, pfn 0x7f)
       --> Fault (page table entry not valid)
-      
+
 Virtual Address 21e1:
   --> pde index:0x8  pde contents:(valid 0, pfn 0x7f)
       --> Fault (page directory entry not valid)
@@ -81,7 +87,50 @@ Virtual Address 7268:
       --> Translates to Physical Address 0xca8 --> Value: 16
 ```
 
+>  代码在 [这里](/src/addr_convert.py)  
+>  运行结果如下：
 
+```
+Virtual Address  0x6c74
+	pde index:  0x23b  pde content: (valid  1 , pfn  0x20 )
+		pte index:  0x403  pte content: (valid  1 , pfn  0x61 )
+			--> Translates to Physical Address  0xc34  --> Value:  6
+Virtual Address  0x6b22
+	pde index:  0x23a  pde content: (valid  1 , pfn  0x52 )
+		pte index:  0xa59  pte content: (valid  1 , pfn  0x47 )
+			--> Translates to Physical Address  0x8e2  --> Value:  26
+Virtual Address  0x3df
+	pde index:  0x220  pde content: (valid  1 , pfn  0x5a )
+		pte index:  0xb5e  pte content: (valid  1 , pfn  0x5 )
+			--> Translates to Physical Address  0xbf  --> Value:  15
+Virtual Address  0x69dc
+	pde index:  0x23a  pde content: (valid  1 , pfn  0x52 )
+		pte index:  0xa4e  pte content: (valid  0 , pfn  0x7f )
+			--> Fault (page table entry not valid)
+Virtual Address  0x317a
+	pde index:  0x22c  pde content: (valid  1 , pfn  0x18 )
+		pte index:  0x30b  pte content: (valid  1 , pfn  0x35 )
+			--> Translates to Physical Address  0x6ba  --> Value:  30
+Virtual Address  0x4546
+	pde index:  0x231  pde content: (valid  1 , pfn  0x21 )
+		pte index:  0x42a  pte content: (valid  0 , pfn  0x7f )
+			--> Fault (page table entry not valid)
+Virtual Address  0x2c03
+	pde index:  0x22b  pde content: (valid  1 , pfn  0x44 )
+		pte index:  0x880  pte content: (valid  1 , pfn  0x57 )
+			--> Translates to Physical Address  0xae3  --> Value:  22
+Virtual Address  0x7fd7
+	pde index:  0x23f  pde content: (valid  1 , pfn  0x12 )
+		pte index:  0x25e  pte content: (valid  0 , pfn  0x7f )
+			--> Fault (page table entry not valid)
+Virtual Address  0x390e
+	pde index:  0x22e  pde content: (valid  0 , pfn  0x7f )
+		--> Fault (page directory entry not valid)
+Virtual Address  0x748b
+	pde index:  0x23d  pde content: (valid  1 , pfn  0x0 )
+		pte index:  0x4  pte content: (valid  0 , pfn  0x7f )
+			--> Fault (page table entry not valid)
+```
 
 （3）请基于你对原理课二级页表的理解，并参考Lab2建页表的过程，设计一个应用程序（可基于python, ruby, C, C++，LISP等）可模拟实现(2)题中描述的抽象OS，可正确完成二级页表转换。
 
@@ -89,10 +138,10 @@ Virtual Address 7268:
 （4）假设你有一台支持[反置页表](http://en.wikipedia.org/wiki/Page_table#Inverted_page_table)的机器，请问你如何设计操作系统支持这种类型计算机？请给出设计方案。
 
  (5)[X86的页面结构](http://os.cs.tsinghua.edu.cn/oscourse/OS2015/lecture06#head-1f58ea81c046bd27b196ea2c366d0a2063b304ab)
---- 
+---
 
 ## 扩展思考题
 
 阅读64bit IBM Powerpc CPU架构是如何实现[反置页表](http://en.wikipedia.org/wiki/Page_table#Inverted_page_table)，给出分析报告。
 
---- 
+---
